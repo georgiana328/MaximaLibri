@@ -36,6 +36,9 @@ public class User {
     @Column
     private Integer age;
 
+    @Column
+    private Boolean enabled;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -43,12 +46,14 @@ public class User {
     private Collection<Role> roles = new ArrayList<>();
 
     public User() {
+        enabled = false;
     }
 
     public User(@NotBlank @Email String email, @NotBlank @Size(max = 15) String username, @NotBlank @Size(max = 40) String password) {
         this.email = email;
         this.username = username;
         this.password = password;
+        enabled = false;
     }
 
 
@@ -107,6 +112,14 @@ public class User {
 
     public void setRoles(Collection<Role> roles) {
         this.roles = roles;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
     @Override
