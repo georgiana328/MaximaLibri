@@ -1,6 +1,7 @@
 package com.maximaLibri.maximaLibriV2.dto;
 
 import com.maximaLibri.maximaLibriV2.constraint.FieldMatch;
+import com.maximaLibri.maximaLibriV2.constraint.ValidEmail;
 
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Email;

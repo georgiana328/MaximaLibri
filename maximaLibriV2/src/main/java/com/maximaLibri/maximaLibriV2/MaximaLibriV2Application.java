@@ -10,6 +10,8 @@ public class MaximaLibriV2Application {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MaximaLibriV2Application.class, args);
+//		AddAdmin addAdmin = new AddAdmin();
+//		addAdmin.AddAdmin();
 	}
 
 }

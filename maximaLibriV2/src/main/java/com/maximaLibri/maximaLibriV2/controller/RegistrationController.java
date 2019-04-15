@@ -53,18 +53,18 @@ public class RegistrationController {
         }
 
         User user = userService.save(userDto);
-//        ConfirmationToken confirmationToken = new ConfirmationToken(user);
-//
-//        confirmationTokenRepository.save(confirmationToken);
-//
-//        SimpleMailMessage mailMessage = new SimpleMailMessage();
-//        mailMessage.setTo(user.getEmail());
-//        mailMessage.setSubject("Complete Registration!");
-//        mailMessage.setFrom("georgianaalexandra328@gmail.com");
-//        mailMessage.setText("To confirm your account, please click here : "
-//                +"http://localhost:8082/confirm-account?token="+confirmationToken.getConfirmationToken());
-//
-//        emailSenderService.sendEmail(mailMessage);
+        ConfirmationToken confirmationToken = new ConfirmationToken(user);
+
+        confirmationTokenRepository.save(confirmationToken);
+
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(user.getEmail());
+        mailMessage.setSubject("Complete Registration!");
+        mailMessage.setFrom("georgianaalexandra328@gmail.com");
+        mailMessage.setText("To confirm your account, please click here : "
+                +"http://localhost:8082/confirm-account?token="+confirmationToken.getConfirmationToken());
+
+        emailSenderService.sendEmail(mailMessage);
 
         return "redirect:/registration?success";
     }
