@@ -1,11 +1,11 @@
 package com.maximaLibri.maximaLibriV2.controller;
 
-import com.maximaLibri.maximaLibriV2.model.Book;
-import com.maximaLibri.maximaLibriV2.service.BookService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+        import com.maximaLibri.maximaLibriV2.model.Book;
+        import com.maximaLibri.maximaLibriV2.service.BookService;
+        import org.springframework.beans.factory.annotation.Autowired;
+        import org.springframework.stereotype.Controller;
+        import org.springframework.ui.Model;
+        import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/book")
@@ -16,7 +16,7 @@ public class BookController {
 
     @GetMapping(value={"/",""})
     public String bookList( Model model) {
-        model.addAttribute("bookList", bookService.getAllBooks());
+        model.addAttribute("bookList", bookService.getTop10());
         return "bookList";
     }
 
@@ -27,7 +27,7 @@ public class BookController {
         } else {
             model.addAttribute("book", new Book());
         }
-        return "/admin/bookEdit";
+        return "editBook";
     }
 
     @RequestMapping(value="/admin/bookEdit", method = RequestMethod.POST)

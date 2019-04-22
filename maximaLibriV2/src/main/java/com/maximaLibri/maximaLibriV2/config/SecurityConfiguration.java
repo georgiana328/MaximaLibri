@@ -1,5 +1,7 @@
 package com.maximaLibri.maximaLibriV2.config;
 
+import com.maximaLibri.maximaLibriV2.model.RoleName;
+import com.maximaLibri.maximaLibriV2.security.AuthentificationFilter;
 import com.maximaLibri.maximaLibriV2.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -19,6 +23,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserService userService;
+
+    @Bean
+    public AuthentificationFilter AuthentificationFilter() {return new AuthentificationFilter();}
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -30,9 +37,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/js/**",
                         "/css/**",
                         "/img/**",
-                        "/webjars/**").permitAll()
-                .antMatchers("/admin/**").hasAnyRole("ROLE_ADMIN")
-                .antMatchers("/user/**").hasAnyRole("ROLE_USER","ROLE_ADMIN")
+                        "/webjars/**",
+                        "/",
+                        "/index").permitAll()
+                .antMatchers("/admin/**").hasAnyRole("ADMIN")
+                .antMatchers("/book/admin/**").hasAnyRole("ADMIN")
+                .antMatchers("/user/**").hasAnyRole("USER","ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -45,6 +55,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/login?logout")
                 .permitAll();
+        http.addFilterAfter(AuthentificationFilter(), BasicAuthenticationFilter.class);
     }
 
     @Bean
