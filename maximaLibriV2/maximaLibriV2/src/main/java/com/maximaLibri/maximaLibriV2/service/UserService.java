@@ -1,10 +1,7 @@
 package com.maximaLibri.maximaLibriV2.service;
 
 import com.maximaLibri.maximaLibriV2.dto.UserRegistrationDto;
-import com.maximaLibri.maximaLibriV2.model.BookRating;
-import com.maximaLibri.maximaLibriV2.model.Role;
-import com.maximaLibri.maximaLibriV2.model.RoleName;
-import com.maximaLibri.maximaLibriV2.model.User;
+import com.maximaLibri.maximaLibriV2.model.*;
 import com.maximaLibri.maximaLibriV2.repository.BookRatingRepository;
 import com.maximaLibri.maximaLibriV2.repository.RoleRepository;
 import com.maximaLibri.maximaLibriV2.repository.UserRepository;
@@ -56,6 +53,10 @@ public class UserService implements UserDetailsService {
         return userRepository.save(user);
     }
 
+    public String encodePassword(String password) {
+        return passwordEncoder.encode(password);
+    }
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);
@@ -75,5 +76,15 @@ public class UserService implements UserDetailsService {
 
     public List<BookRating> getHistory(Long userId) {
         return bookRatingRepository.findRatingsByUserId(userId);
+    }
+
+    public void rateBook(String isbn, Long userId, Integer rating) {
+        BookRating bookRating = new BookRating();
+        BookRatingId bookRatingId = new BookRatingId();
+        bookRatingId.setIsbn(isbn);
+        bookRatingId.setUserId(userId);
+        bookRating.setBookRatingId(bookRatingId);
+        bookRating.setBookRating(rating);
+        bookRatingRepository.save(bookRating);
     }
 }
