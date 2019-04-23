@@ -38,6 +38,17 @@ public class Book {
     public Book() {
     }
 
+    public Book(String isbn, String title, String author, Integer yearOfPublication, String publisher, String imageUrlS, String imageUrlM, String imageUrlL) {
+        this.isbn = isbn;
+        this.title = title;
+        this.author = author;
+        this.yearOfPublication = yearOfPublication;
+        this.publisher = publisher;
+        this.imageUrlS = imageUrlS;
+        this.imageUrlM = imageUrlM;
+        this.imageUrlL = imageUrlL;
+    }
+
     public String getIsbn() {
         return isbn;
     }
