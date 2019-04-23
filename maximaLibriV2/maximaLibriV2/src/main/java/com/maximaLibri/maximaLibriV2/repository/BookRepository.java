@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface BookRepository extends JpaRepository<Book, String> {
 
-    //List<Book> findTop10OrderByTitle();
+    //List<Book> findTopByTitle10OrderByTitle(String title);
 }
