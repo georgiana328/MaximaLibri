@@ -12,6 +12,7 @@ public class MaximaLibriV2Application {
 		SpringApplication.run(MaximaLibriV2Application.class, args);
 //		AddAdmin addAdmin = new AddAdmin();
 //		addAdmin.AddAdmin();
+		//test commit from intellij change
 	}
 
 }
