@@ -3,6 +3,7 @@ package com.maximaLibri.maximaLibriV2.controller;
 
 import com.maximaLibri.maximaLibriV2.dto.SearchForm;
 import com.maximaLibri.maximaLibriV2.model.RoleName;
+import com.maximaLibri.maximaLibriV2.model.User;
 import com.maximaLibri.maximaLibriV2.service.BookService;
 import com.maximaLibri.maximaLibriV2.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,9 +39,20 @@ public class MainController {
         return "login";
     }
 
+    @GetMapping("/checkEnabled")
+    public String checkUserIsEnabled() {
+        User user = userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        if(user.getEnabled()) {
+            return "redirect:/index";
+        }
+        else {
+            return "redirect:/logout";
+        }
+    }
+
     @PostMapping("/search")
     public String search(@ModelAttribute SearchForm searchForm) {
-        return "redirect:/book/"+searchForm.getSearchParameter();
+        return "redirect:/book/"+searchForm.getSearchParameter().replace(' ','+');
     }
 
 

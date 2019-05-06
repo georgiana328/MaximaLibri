@@ -33,7 +33,8 @@ public class BookController {
     @GetMapping(value = "/{searchParameter}")
     public String bookListSearchResults(Model model, @PathVariable(name="searchParameter") String searchParameter) {
         addRoleToModel(model);
-        model.addAttribute("bookList", bookService.getSearchResults(searchParameter));
+        model.addAttribute("bookList", bookService.getSearchResults(searchParameter.replace('+',' ')));
+        model.addAttribute("goodreadsSearchLink","https://www.goodreads.com/search?q="+searchParameter);
         return "bookList";
     }
 
@@ -57,6 +58,7 @@ public class BookController {
     @RequestMapping(value="/show/{isbn}", method = RequestMethod.GET)
     public String bookShow(Model model, @PathVariable(required = true, name = "isbn") String isbn) {
         model.addAttribute("book",bookService.getBookAndRatingById(isbn));
+        model.addAttribute("description",bookService.getBookDescription(isbn));
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         BookRating bookRating = null;
         Long userId = null;
