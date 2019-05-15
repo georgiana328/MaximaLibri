@@ -40,6 +40,13 @@
 <p th:text="${user.username}">Isbn</p>
 <p th:text="${user.email}">Title</p>
 
+<div th:if="${role} == 'ROLE_ADMIN'">
+    <form id="searchForUsers" class="form-group" th:action="@{/user/search-users}" th:object="${searchForUsers}" method="post">
+        <input type="text" id="stringParameter" th:field="*{stringParameter}">
+        <input type="submit" value="Search users" class="btn btn-primary"/>
+    </form>
+</div>
+
 <table class="table">
     <thead>
     <tr>
