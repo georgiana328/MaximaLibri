@@ -71,6 +71,33 @@ public class RecommenderTest {
         entityManager.flush();
 
         List<IBookAndRating> recommendedBooks = recommenderService.recommendForUser(jimmyUser);
+        assertThat(recommendedBooks).isNotNull()
+                .isNotEmpty()
+                .hasSize(5);
+        recommendedBooks.stream()
+                .map(x -> x.getIsbn()+" "+x.getBook_Title()+" "+x.getBook_Author()+" "+x.getAverage())
+                .forEach(System.out::println);
+    }
+
+    @Test
+    @Transactional
+    public void getRecommandationAdvancedTest() {
+        TestData testData = new TestData();
+        User jimmyUser = testData.getJimmyUser();
+        jimmyUser = userService.save(jimmyUser);
+        entityManager.flush();
+
+        userService.rateBook("059035342X",jimmyUser.getId(),9);
+        userService.rateBook("0312195516",jimmyUser.getId(),7);
+        userService.rateBook("B0001GDNCK",jimmyUser.getId(),5);
+        userService.rateBook("0671027360",jimmyUser.getId(),8);
+        entityManager.flush();
+
+        List<IBookAndRating> recommendedBooks = recommenderService.recommendForUser(jimmyUser);
+        assertThat(recommendedBooks).isNotNull()
+                .isNotEmpty()
+                .hasSize(5);
+
         recommendedBooks.stream()
                 .map(x -> x.getIsbn()+" "+x.getBook_Title()+" "+x.getBook_Author()+" "+x.getAverage())
                 .forEach(System.out::println);
